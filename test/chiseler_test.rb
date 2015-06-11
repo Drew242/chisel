@@ -37,7 +37,7 @@ class ChiselerTest < Minitest::Test
 
   def test_it_handles_links
     string = Chiseler.new("<p>This is a paragraph with[dopeness](https://google.com) ya know</p>")
-    assert_equal "<p>This is a paragraph with<a href=\"https://google.com\"dopeness</a> ya know</p>", string.link_formatter("<p>This is a paragraph with[dopeness](https://google.com) ya know</p>")
+    assert_equal "<p>This is a paragraph with<a href=\"https://google.com\">dopeness</a> ya know</p>", string.link_formatter("<p>This is a paragraph with[dopeness](https://google.com) ya know</p>")
   end
 
 end

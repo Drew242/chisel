@@ -69,16 +69,20 @@ class Chiseler
   end
 
   def link_formatter(strings)
-    text = strings[(strings.index("[")+1)..(strings.index("]")-1)]                             # => "dopeness"
-    link = strings[(strings.index("(")+1)..(strings.index(")")-1)]                             # => "https://google.com"
-    strings.sub!("(", "")                                                              # => "<p>This is a paragraph with[dopeness]https://google.com) ya know</p>"
-    strings.sub!(")", "")                                                              # => "<p>This is a paragraph with[dopeness]https://google.com ya know</p>"
-    strings.sub("[", "")                                                               # => "<p>This is a paragraph withdopeness]https://google.com ya know</p>"
-    strings.sub!("]", "</a>")                                                          # => "<p>This is a paragraph with[dopeness</a>https://google.com ya know</p>"
-    strings.sub!(text, "")                                                             # => "<p>This is a paragraph with[</a>https://google.com ya know</p>"
-    strings.sub!(link, "")                                                             # => "<p>This is a paragraph with[</a> ya know</p>"
-    strings.sub!("[", "<a href=\"#{link}\">#{text}")
-    return
+    if strings.include?("[")
+      text = strings[(strings.index("[")+1)..(strings.index("]")-1)]
+      link = strings[(strings.index("(")+1)..(strings.index(")")-1)]
+      strings.sub!("(", "")
+      strings.sub!(")", "")
+      strings.sub("[", "")
+      strings.sub!("]", "</a>")
+      strings.sub!(text, "")
+      strings.sub!(link, "")
+      strings.sub!("[", "<a href=\"#{link}\">#{text}")
+      return strings
+    else
+      return strings
+    end
   end
 
 end
