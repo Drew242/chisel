@@ -22,6 +22,7 @@ class Chiseler
     strings = @new_chunk.join("\n\n")
     strong_formatter(strings)
     em_formatter(strings)
+    link_formatter(strings)
     return strings
   end
 
@@ -65,6 +66,19 @@ class Chiseler
       str.sub!("*", "</em>")
     end
     return str
+  end
+
+  def link_formatter(strings)
+    text = strings[(strings.index("[")+1)..(strings.index("]")-1)]                             # => "dopeness"
+    link = strings[(strings.index("(")+1)..(strings.index(")")-1)]                             # => "https://google.com"
+    strings.sub!("(", "")                                                              # => "<p>This is a paragraph with[dopeness]https://google.com) ya know</p>"
+    strings.sub!(")", "")                                                              # => "<p>This is a paragraph with[dopeness]https://google.com ya know</p>"
+    strings.sub("[", "")                                                               # => "<p>This is a paragraph withdopeness]https://google.com ya know</p>"
+    strings.sub!("]", "</a>")                                                          # => "<p>This is a paragraph with[dopeness</a>https://google.com ya know</p>"
+    strings.sub!(text, "")                                                             # => "<p>This is a paragraph with[</a>https://google.com ya know</p>"
+    strings.sub!(link, "")                                                             # => "<p>This is a paragraph with[</a> ya know</p>"
+    strings.sub!("[", "<a href=\"#{link}\">#{text}")
+    return
   end
 
 end

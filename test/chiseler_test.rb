@@ -35,4 +35,9 @@ class ChiselerTest < Minitest::Test
     assert_equal "<ol>\n<li>cool</li>\n<li>super cool</li>\n<li>extremely cool</li>\n</ol>", string.ordered_list_formatter("1. cool\n2. super cool\n3. extremely cool")
   end
 
+  def test_it_handles_links
+    string = Chiseler.new("<p>This is a paragraph with[dopeness](https://google.com) ya know</p>")
+    assert_equal "<p>This is a paragraph with<a href=\"https://google.com\"dopeness</a> ya know</p>", string.link_formatter("<p>This is a paragraph with[dopeness](https://google.com) ya know</p>")
+  end
+
 end
